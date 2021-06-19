@@ -1,0 +1,40 @@
+<div class="card-user" data-author="{{ author.pk }}">
+    <div class="card-user__header">
+        <h2 class="card-user__title">{{ author.first_name }} {{ author.last_name }}</h2>
+    </div>
+    <div class="card-user__body">
+        <ul class="card-user__items">
+            {% for recipe in recipes %}
+            <li class="card-user__item">
+                <div class="recipe">
+                    {% load thumbnail %}
+                    {% thumbnail recipe.image "960x960" crop="center" upscale=True as im %}
+                    <a href="{% url 'recipe_view' recipe.author.username recipe.pk %}" class="link" target="_blank"><img src="{{ im.url }}" alt="какой-то-текст" class="recipe__image"></a>
+                    {% endthumbnail %}
+                    <h3 class="recipe__title"><a href="{% url 'recipe_view' author.username recipe.pk %}" class="recipe__title" style="text-decoration: none">{{ recipe.name }}</a></h3>
+                    <p class="recipe__text"><span class="icon-time"></span> {{ recipe.time }} мин.</p>
+                </div>
+            </li>
+            {% endfor %}
+            <li class="card-user__item">
+                {% load recipe_filters %}
+                {% with count=author.recipes.all|length|add:"-3" %}
+                {% if count|less_or_equal:"0" %}
+                    <a href="{% url 'profile_view' author.username %}" class="card-user__link link">Перейти на страницу автора</a>
+                {% else %}
+                    {% if count == 1 %}
+                    <a href="{% url 'profile_view' author.username %}" class="card-user__link link">Еще {{ count }} рецепт...</a>
+                    {% elif count|less_or_equal:"4" %}
+                    <a href="{% url 'profile_view' author.username %}" class="card-user__link link">Еще {{ count }} рецепта...</a>
+                    {% else %}
+                    <a href="{% url 'profile_view' author.username %}" class="card-user__link link">Еще {{ count }} рецептов...</a>
+                    {% endif %}
+                {% endif %}
+                {% endwith %}
+            </li>
+        </ul>
+    </div>
+    <div class="card-user__footer">
+        {% include 'recipes/includes/follow_button.html' with profile=profile follow=True %}
+    </div>
+</div>

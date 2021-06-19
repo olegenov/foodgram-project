@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Список покупок{% endblock %}
+{% block static %}
+    {% load static %}
+    {% if not recipes_list %}
+    <link rel="stylesheet" href="{% static 'pages/index.css' %}">
+    {% else %}
+    <link rel="stylesheet" href="{% static 'pages/shopList.css' %}">
+    {% endif %}
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'js/config/config.js' %}"></script>
+<script src="{% static 'js/components/Header.js' %}"></script>
+<script src="{% static 'js/components/ShopList.js' %}"></script>
+<script src="{% static 'js/api/Api.js' %}"></script>
+<script src="{% static 'js/shopList.js' %}"></script>
+{% endblock %}
+{% block header %}
+<div class="main__header">
+    <h1 class="main__title">Список покупок</h1>
+</div>
+{% endblock %}
+{% block content %}
+{% if not recipes_list %}
+        <div class="custom-center-block">
+            <p class="custom-text-block">У вас еще нет рецептов в списке покупок</p>
+        </div>
+            <form action="{% url 'index' %}">
+                <center><button class="button button_style_blue">Перейти на главную</button></center>
+            </form>
+        </div>
+{% else %}
+<div class="card-list card-list_column">
+    <ul class="shopping-list">
+        {% for recipe in recipes_list %}
+        {% include 'recipes/includes/purchase_recipe.html' with recipe=recipe %}
+        {% endfor %}
+    </ul>
+    <a href="{% url 'download_purchase' %}"><button class="button button_style_blue">Скачать список</button></a>
+</div>
+{% endif %}
+{% endblock %}

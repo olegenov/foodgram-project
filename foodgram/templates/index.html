@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Рецепты{% endblock %}
+{% block static %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'pages/index.css' %}">
+{% endblock %}
+{% block scripts %}
+<script src="{% static '/js/components/MainCards.js' %}"></script>
+<script src="{% static 'js/components/Purchases.js' %}"></script>
+<script src="{% static 'js/components/Favorites.js' %}"></script>
+
+<script src="{% static 'js/config/config.js' %}"></script>
+<script src="{% static 'js/components/CardList.js' %}"></script>
+<script src="{% static 'js/components/Header.js' %}"></script>
+
+<script src="{% static 'js/api/Api.js' %}"></script>
+{% if user.is_authenticated %}
+<script src="{% static 'js/indexAuth.js' %}"></script>
+{% else %}
+<script src="{% static 'js/indexNotAuth.js' %}"></script>
+{% endif %}
+
+{% endblock %}
+{% block header %}
+<div class="main__header">
+    <h1 class="main__title">Рецепты</h1>
+    <ul class="tags">
+        {% for tag in tags %}
+        {% load recipe_filters %}
+        {% include 'recipes/includes/tag.html' with tag=tag tag_id=tag.pk|to_str %}
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+{% block content %}
+<div class="card-list">
+    {% for recipe in page %}
+        {% include "recipes/includes/recipe_card.html" with recipe=recipe %}
+    {% endfor %}
+</div>
+    {% if page.has_other_pages %}
+        {% include "paginator.html" with items=page paginator=paginator %}
+    {% endif %}
+{% endblock %}

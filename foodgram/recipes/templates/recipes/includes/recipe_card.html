@@ -1,0 +1,35 @@
+{% load recipe_filters %}
+<div class="card" data-id="{{ recipe.pk }}">
+    {% load thumbnail %}
+    {% thumbnail recipe.image "960x339" crop="center" upscale=True as im %}
+    <a href="{% url 'recipe_view' recipe.author.username recipe.pk %}" class="link" target="_blank"><img src="{{ im.url }}" alt="Какой-то текст" class="card__image"></a>
+    {% endthumbnail %}
+    <div class="card__body">
+        <a class="card__title link" href="{% url 'recipe_view' recipe.author.username recipe.pk %}" target="_blank">{{ recipe.name }}</a>
+        <ul class="card__items">
+            {% for tag in recipe.tags.all %}
+            <li class="card__item"><span class="badge badge_style_{{ tag.colour }}">{{ tag.name }}</span></li>
+            {% endfor %}
+        </ul>
+        <div class="card__items card__items_column">
+            <p class="card__text"><span class="icon-time"></span> {{ recipe.time }} мин.</p>
+            <p class="card__text"><span class="icon-user"></span> <a href="{% url 'profile_view' recipe.author.username %}" style="color: black">{{ recipe.author.first_name }} {{ recipe.author.last_name }}</a></p>
+        </div>
+    </div>
+    <div class="card__footer">
+    {% if user.is_authenticated %}
+    {% if recipe in purchases %}
+        <button class="button button_style_none" name="purchases"><span class="icon-plus button__icon"></span>Рецепт добавлен</button>
+    {% else %}
+        <button class="button button_style_light-blue" name="purchases" data-out><span class="icon-plus button__icon"></span>Добавить в покупки</button>
+    {% endif %}
+    {% if recipe in favorites %}
+        <button class="button button_style_none" name="favorites"><span class="icon-favorite icon-favorite_active"></span></button>
+    {% else %}
+        <button class="button button_style_none" name="favorites" data-out><span class="icon-favorite"></span></button>
+    {% endif %}
+    {% else %}
+    <a href="{% url 'login' %}" a><button class="button button_style_light-blue" name="login">Войдите в аккаунт</button></a>
+    {% endif %}
+    </div>
+</div>

@@ -1,0 +1,8 @@
+{% if request.user != profile %}   
+    {% csrf_token %}
+    {% if follow %}
+    <button class="button button_style_light-blue button_size_subscribe" name="subscribe">Отписаться от автора</button>
+    {% else %}
+    <button class="button button_style_blue button_size_subscribe" name="subscribe" data-out>Подписаться на автора</button>
+    {% endif %} 
+{% endif %}

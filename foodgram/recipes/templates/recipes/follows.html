@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Мои подписки{% endblock %}
+{% block static %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'pages/myFollow.css' %}">
+{% endblock %}
+{% block header %}
+<div class="main__header">
+    <h1 class="main__title">Мои подписки</h1>
+</div>
+{% endblock %}
+{% block content %}
+<div class="card-list">
+    {% load recipe_filters %}
+    {% for author in page %}
+    {% include 'recipes/includes/author_card.html' with author=author recipes=author.recipes|to_list:"3" %}
+    {% endfor %}
+</div>
+{% if page.has_other_pages %}
+    {% include "paginator.html" with items=page paginator=paginator %}
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'js/config/config.js' %}"></script>
+<script src="{% static 'js/components/MainCards.js' %}"></script>
+<script src="{% static 'js/components/MyFollow.js' %}"></script>
+<script src="{% static 'js/components/Subscribe.js' %}"></script>
+<script src="{% static 'js/components/Header.js' %}"></script>
+<script src="{% static 'js/api/Api.js' %}"></script>
+<script src="{% static 'js/myFollow.js' %}"></script>
+{% endblock %}
