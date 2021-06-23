@@ -19,7 +19,7 @@ class Api {
         this.apiUrl =  apiUrl;
     }
   getPurchases () {
-    return fetch(`/api/purchases/`, {
+    return fetch(`/api/v1/purchases/`, {
       headers: {
         'Content-Type': 'application/json',
         "X-CSRFToken": getCookie("csrftoken")
@@ -33,7 +33,7 @@ class Api {
       })
   }
   addPurchases (id) {
-    return fetch(`/api/purchases/`, {
+    return fetch(`/api/v1/purchases/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ class Api {
       })
   }
   removePurchases (id){
-    return fetch(`/api/purchases/${id}/`, {
+    return fetch(`/api/v1/purchases/${id}/`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ class Api {
       })
   }
   addSubscriptions(id) {
-    return fetch('/api/subscribe/', {
+    return fetch('/api/v1/subscribe/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ class Api {
       })
   }
   removeSubscriptions (id) {
-    return fetch(`/api/subscribe/${id}/`, {
+    return fetch(`/api/v1/subscribe/${id}/`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ class Api {
       })
   }
   addFavorites (id)  {
-    return fetch(`/api/favorite/`, {
+    return fetch(`/api/v1/favorite/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ class Api {
         })
   }
   removeFavorites (id) {
-    return fetch(`/api/favorite/${id}/`, {
+    return fetch(`/api/v1/favorite/${id}/`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -132,7 +132,7 @@ class Api {
         })
   }
     getIngredients  (text)  {
-        return fetch(`/api/ingredients/?query=${text}`, {
+        return fetch(`/api/v1/ingredients/?query=${text}`, {
             headers: {
                 'Content-Type': 'application/json',
                 "X-CSRFToken": getCookie("csrftoken")

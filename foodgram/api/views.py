@@ -22,8 +22,7 @@ class FollowViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
     
     def destroy(self, request, pk):
-        author = get_object_or_404(User, pk=pk)
-        follow = get_object_or_404(Follow, author=author, user=self.request.user)
+        follow = get_object_or_404(Follow, author__pk=pk, user=self.request.user)
         follow.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -36,8 +35,7 @@ class FavoriteViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
     def destroy(self, request, pk):
-        recipe = get_object_or_404(Recipe, pk=pk)
-        favorite = get_object_or_404(Favorite, recipe=recipe, user=self.request.user)
+        favorite = get_object_or_404(Favorite, recipe__pk=pk, user=self.request.user)
         favorite.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -50,8 +48,11 @@ class PurchaseViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
     def destroy(self, request, pk):
-        recipe = get_object_or_404(Recipe, pk=pk)
-        purchase = get_object_or_404(Purchase, recipe=recipe, user=self.request.user)
+        purchase = get_object_or_404(
+            Purchase,
+            recipe__pk=pk,
+            user=self.request.user
+        )
         purchase.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -61,14 +62,20 @@ class IngredientViewSet(viewsets.ModelViewSet):
     serializer_class = IngredientSerializer
 
     def get_queryset(self):
-        queryset = Ingredient.objects.filter(name__icontains=self.request.GET.get('query'))
+        queryset = Ingredient.objects.filter(
+            name__icontains=self.request.GET.get('query')
+        )
         return queryset
     
     def list(self, request):
-        query = self.request.GET.get('query')
-        queryset = Ingredient.objects.filter(name__icontains=query)
+        queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
-        names = [{'title': od['name'], 'dimension': od['units']} for od in serializer.data]
+        names = [
+            {
+                'title': od['name'],
+                'dimension': od['units']
+            } for od in serializer.data
+        ]
 
         return Response(names)
 

@@ -32,8 +32,8 @@ class TagInline(admin.TabularInline):
 
 
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'name', 'pub_date', 'author', 'image', \
-        'description', 'time') 
+    list_display = ('pk', 'name', 'pub_date', 'author', 'image',
+                    'description', 'time') 
     search_fields = ('name',)
     list_filter = ('name',)
     empty_value_display = '-пусто-'

@@ -1,6 +1,7 @@
-{% if request.user != profile %}   
+{% if request.user != author %}   
     {% csrf_token %}
-    {% if follow %}
+    {% load recipe_filters %} 
+    {% if request.user|is_following:author.pk %}
     <button class="button button_style_light-blue button_size_subscribe" name="subscribe">Отписаться от автора</button>
     {% else %}
     <button class="button button_style_blue button_size_subscribe" name="subscribe" data-out>Подписаться на автора</button>

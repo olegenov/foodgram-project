@@ -1,0 +1,18 @@
+<li class="nav__item {% if page == 'index' or page == 'recipe_view' %}nav__item_active{% endif %}">
+    <a href="{% url 'index' %}" class="nav__link link">Рецепты</a>
+</li>
+{% if user.is_authenticated %}
+<li class="nav__item {% if page == 'follows' %}nav__item_active{% endif %}">
+    <a href="{% url 'follows' %}" class="nav__link link">Мои подписки</a>
+</li>
+<li class="nav__item {% if page == 'new_recipe' %}nav__item_active{% endif %}">
+    <a href="{% url 'new_recipe' %}" class="nav__link link">Создать рецепт</a>
+</li>
+<li class="nav__item {% if page == 'favorites' %}nav__item_active{% endif %}">
+    <a href="{% url 'favorites' %}" class="nav__link link">Избранное</a>
+</li>
+<li class="nav__item {% if page == 'purchase' %}nav__item_active{% endif %}">
+    <a href="{% url 'purchase' %}" class="nav__link link">Список покупок</a>
+    <span class="badge badge_style_blue nav__badge" id="counter">{{ purchase_count }}</span>
+</li>
+{% endif %}

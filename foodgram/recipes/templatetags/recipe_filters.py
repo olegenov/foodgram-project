@@ -2,7 +2,7 @@ from django import template
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 
-from recipes.models import Favorite
+from recipes.models import Purchase, Favorite, Follow
 
 
 register = template.Library()
@@ -25,19 +25,20 @@ def to_str(value):
     return str(value)
 
 
-@register.filter 
+@register.filter
 def remove_tag(value, arg):
     value_list = list(value)
-    if arg in value_list:
+    arg = str(arg)
+    while arg in value_list:
         value_list.remove(arg)
-    return ''.join(value_list)
+    return ''.join([str(value) for value in value_list])
 
 
 @register.filter 
 def add_tag(value, arg):
     value_list = str(value).split()
     value_list.append(arg)
-    return ''.join(value_list)
+    return ''.join([str(value) for value in value_list])
 
 
 @register.filter
@@ -67,3 +68,21 @@ def append_url_param(url, param):
 @register.filter
 def page(value):
     return f'page={value}'
+
+
+@register.filter
+def is_favorite(recipe, user_id):
+    favorite = Favorite.objects.filter(recipe=recipe, user__pk=user_id)
+    return favorite.exists()
+
+
+@register.filter
+def is_in_purchase(recipe, user_id):
+    purchase = Purchase.objects.filter(recipe=recipe, user__pk=user_id)
+    return purchase.exists()
+
+
+@register.filter
+def is_following(user, author_id):
+    follow = Follow.objects.filter(user=user, author__pk=author_id)
+    return follow.exists()

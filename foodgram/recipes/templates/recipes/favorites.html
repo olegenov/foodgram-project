@@ -10,7 +10,7 @@
     <ul class="tags">
         {% for tag in tags %}
         {% load recipe_filters %}
-        {% include 'recipes/includes/tag.html' with tag=tag tag_id=tag.pk|to_str %}
+        {% include 'recipes/includes/tag.html' with tag=tag tag_id=tag.pk %}
         {% endfor %}
     </ul>
 </div>
@@ -18,11 +18,11 @@
 {% block content %}
 <div class="card-list">
     {% for recipe in page %}
-    {% include "recipes/includes/recipe_card.html" with recipe=recipe %}
+    {% include 'recipes/includes/recipe_card.html' with recipe=recipe %}
     {% endfor %}
 </div>
 {% if page.has_other_pages %}
-    {% include "paginator.html" with items=page paginator=paginator %}
+    {% include 'includes/paginator.html' with items=page paginator=paginator %}
 {% endif %}
 {% endblock %}
 {% block scripts %}

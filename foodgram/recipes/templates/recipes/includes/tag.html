@@ -1,6 +1,6 @@
 <li class="tags__item">
     {% load recipe_filters %}
-    {% if tag_id in active_tags %}
+    {% if tag_id|to_str in active_tags %}
     <a id="{{ tag.name }}" class="tags__checkbox tags__checkbox_style_{{ tag.colour }} tags__checkbox_active" href="?tags={{ active_tags|remove_tag:tag_id }}"></a>
     {% else %}
     <a id="{{ tag.name }}" class="tags__checkbox tags__checkbox_style_{{ tag.colour }} tags__checkbox" href="?tags={{ active_tags|add_tag:tag_id }}"></a>

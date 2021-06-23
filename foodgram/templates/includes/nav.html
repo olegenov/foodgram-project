@@ -1,7 +1,7 @@
 <nav class="nav">
     <div class="nav__container container">
         <ul class="nav__items list">
-            {% include "menu.html" with page=menu %}
+            {% include 'includes/menu.html' with page=request.resolver_match.url_name %}
         </ul>
         <ul class="nav__items list">
             {% if user.is_authenticated %}

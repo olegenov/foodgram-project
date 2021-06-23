@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Ошибка 404{% endblock %}
+{% block static %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'pages/index.css' %}">
+{% endblock %}
+{% block header %}
+<div class="main__header">
+    <h1 class="main__title">Ошибка 500</h1>
+</div>
+{% endblock %}
+{% block content %}
+<div class="custom-center-block">
+    <p class="custom-text-block">Ошибка на сервере, попробуйте обновить страницу или обратиться позже</p>
+</div>
+    <form action="{% url 'index' %}">
+        <center><button class="button button_style_blue">Перейти на главную</button></center>
+    </form>
+</div>
+</div>
+{% endblock %}
+{% block scripts %}
+{% endblock %}

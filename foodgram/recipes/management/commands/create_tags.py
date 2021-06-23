@@ -11,5 +11,5 @@ class Command(BaseCommand):
         tags = {'Breakfast': 'Завтрак', 'Lunch': 'Обед', 'Dinner': 'Ужин'}
         colours = {'Breakfast': 'orange', 'Lunch': 'green', 'Dinner': 'purple'}
         for tag, value in tags.items():
-            Tag.objects.create(pk=pk, name=Tag.Status(value), colour=colours.get(tag), slug=tag.lower())
+            Tag.objects.get_or_create(pk=pk, name=Tag.Status(value), colour=colours.get(tag), slug=tag.lower())
             pk += 1

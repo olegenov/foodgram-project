@@ -14,6 +14,6 @@ router.register('ingredients', IngredientViewSet, basename='ingredients')
 router.register('recipe', RecipeViewSet, basename='recipe')
 
 urlpatterns = [
-    path('api-token-auth/', views.obtain_auth_token, name='get_token'),
-    path('', include(router.urls))
+    path('v1/api-token-auth/', views.obtain_auth_token, name='get_token'),
+    path('v1/', include(router.urls))
 ]
