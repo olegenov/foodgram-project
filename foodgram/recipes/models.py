@@ -34,24 +34,24 @@ class Tag(models.Model):
         verbose_name='Короткое имя'
     )
 
-    def __str__(self):
-        return self.name
-    
     class Meta:
         verbose_name = 'Тэг'
         verbose_name_plural = 'Тэги'
+
+    def __str__(self):
+        return self.name
 
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=200, verbose_name='Имя')
     units = models.CharField(max_length=200, verbose_name='Единицы измерения')
 
-    def __str__(self):
-        return self.name
-    
     class Meta:
         verbose_name = 'Инградиент'
         verbose_name_plural = 'Инградиенты'
+
+    def __str__(self):
+        return self.name
 
 
 class RecipeIngredient(models.Model):
@@ -63,12 +63,13 @@ class RecipeIngredient(models.Model):
     )
     amount = models.PositiveIntegerField(verbose_name='Количество')
 
-    def __str__(self):
-        return f'{self.ingredient.name} ({self.ingredient.units}) - {self.amount}'
-    
     class Meta:
         verbose_name = 'Инградиент рецепта'
         verbose_name_plural = 'Инградиенты рецептов'
+
+    def __str__(self):
+        return (f'{self.ingredient.name} ' +
+            f'({self.ingredient.units}) - {self.amount}')
 
 
 class Recipe(models.Model):
@@ -96,15 +97,18 @@ class Recipe(models.Model):
         Tag,
         verbose_name='Тэги'
     )
-    time = models.PositiveIntegerField(verbose_name='Время приготовления', default=0)
+    time = models.PositiveIntegerField(
+        verbose_name='Время приготовления',
+        default=0
+    )
 
-    def __str__(self):
-        return self.name
-    
     class Meta:
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
         ordering = ['-pub_date']
+
+    def __str__(self):
+        return self.name
 
 
 class Follow(models.Model):

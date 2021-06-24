@@ -1,8 +1,11 @@
-from .models import (Favorite, Ingredient, Purchase, Recipe,
-                     RecipeIngredient, Tag)
+from .models import Purchase, Recipe, Tag
 
 
-ACTIVE_TAGS = ''.join([str(tag.pk) for tag in Tag.objects.all()])
+def get_all_tags():
+    tags = Tag.objects.all().values_list('pk')
+    tags_list = [str(value[0]) for value in tags]
+
+    return ''.join(tags_list)
 
 
 def count_purchase(request):
@@ -53,7 +56,7 @@ def filter_tags(request):
             tags__in=tag_queryset
         ).order_by('-pub_date').distinct()
     else:
-        active_tags = ACTIVE_TAGS
+        active_tags = get_all_tags()
         recipe_list = Recipe.objects.order_by('-pub_date').all()
     
     return {'recipe_list': recipe_list, 'active_tags': active_tags}

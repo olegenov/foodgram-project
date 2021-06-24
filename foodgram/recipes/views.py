@@ -66,12 +66,24 @@ def recipe_view(request, username, recipe_id):
 @login_required
 def recipe_new(request):
     form = RecipeForm(request.POST or None, files=request.FILES or None)
-    saved_form = form.save(request, commit=False)
+    tags = Tag.objects.all()
+    purchase_count = count_purchase(request)
+    recipe = None
 
-    if isinstance(saved_form, HttpResponse):
-        return saved_form
+    if not form.is_valid():
+        return render(
+            request,
+            'recipes/new_recipe.html',
+            {
+                'form': form,
+                'tags': tags,
+                'recipe': recipe,
+                'exists': False,
+                'purchase_count': purchase_count,
+            }
+        )
 
-    recipe = saved_form
+    recipe = form.save(request, commit=False)
     recipe.save()
 
     return redirect(
@@ -92,12 +104,35 @@ def recipe_edit(request, username, recipe_id):
         files=request.FILES or None,
         instance=recipe
     )
-    saved_form = form.save(request)
+    tags = Tag.objects.all()
+    purchase_count = count_purchase(request)
 
-    if isinstance(saved_form, HttpResponse):
-        return saved_form
+    if request.user != recipe.author:
+        return redirect(
+            'recipe',
+            username=recipe.author.username,
+            recipe_id=recipe.pk
+        )
+    
+    if not form.is_valid():
+        return render(
+            request,
+            'recipes/new_recipe.html',
+            {
+                'form': form,
+                'tags': tags,
+                'recipe': recipe,
+                'exists': True,
+                'purchase_count': purchase_count,
+            }
+        )
 
-    recipe = saved_form
+    form = RecipeForm(
+        request.POST or None,
+        files=request.FILES or None,
+        instance=recipe
+    )
+    recipe = form.save(request)
     recipe.save()
 
     return redirect('recipe_view', username=username, recipe_id=recipe.pk)
@@ -235,16 +270,3 @@ def purchase_delete(request, recipe_id):
     get_object_or_404(Purchase, recipe=recipe, user=request.user).delete()
 
     return redirect('purchase')
-
-
-def page_not_found(request, exception):
-    return render(
-        request,
-        'misc/404.html',
-        {"path": request.path},
-        status=404
-    )
-
-
-def server_error(request):
-    return render(request, 'misc/500.html', status=500)

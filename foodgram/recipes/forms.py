@@ -1,32 +1,12 @@
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404
 from django.forms import ModelForm, Textarea
 
 from .models import Ingredient, Recipe, RecipeIngredient, Tag
-from .utils import count_purchase
 
 
 class RecipeForm(ModelForm):
     def save(self, request, commit=True):
-        tags = Tag.objects.all()
-        purchase_count = count_purchase(request)
-        recipe = None
-
-        if commit:
-            recipe = get_object_or_404(Recipe, pk=self.instance.pk)
-
-        if not self.is_valid():
-            return render(
-                request,
-                'recipes/new_recipe.html',
-                {
-                    'form': self,
-                    'tags': tags,
-                    'recipe': recipe,
-                    'exists': commit,
-                    'purchase_count': purchase_count,
-                }
-            )
-
+        recipe = None 
         post_request = request.POST
 
         if not commit:
@@ -39,14 +19,6 @@ class RecipeForm(ModelForm):
             )
         else:
             recipe = get_object_or_404(Recipe, pk=self.instance.pk)
-
-            if request.user != recipe.author:
-                return redirect(
-                    'recipe',
-                    username=recipe.author.username,
-                    recipe_id=recipe.pk
-                )
-
             recipe.name = post_request.get('name')
 
             if request.FILES.get('image'):

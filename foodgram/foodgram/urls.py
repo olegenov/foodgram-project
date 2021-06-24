@@ -4,12 +4,12 @@ from django.contrib import admin
 from django.contrib.flatpages import views
 from django.urls import include, path
 
+from .views import page_not_found, server_error
 
-from recipes.views import page_not_found, server_error
 
+handler404 = "foodgram.views.page_not_found"
+handler500 = "foodgram.views.server_error"
 
-handler404 = "recipes.views.page_not_found"
-handler500 = "recipes.views.server_error"
 
 urlpatterns = [
     path('admin/', admin.site.urls),
