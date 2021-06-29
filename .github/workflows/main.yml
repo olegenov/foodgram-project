@@ -34,6 +34,5 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         script: |
           cd foodgram-project
-          sudo docker pull olegenov/foodgram-project
           sudo docker-compose down
           sudo docker-compose up
