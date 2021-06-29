@@ -40,7 +40,11 @@ class FavoriteViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
     def destroy(self, request, pk):
-        favorite = get_object_or_404(Favorite, recipe__pk=pk, user=self.request.user)
+        favorite = get_object_or_404(
+            Favorite,
+            recipe__pk=pk,
+            user=self.request.user
+        )
         favorite.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
