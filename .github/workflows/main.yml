@@ -36,4 +36,4 @@ jobs:
           sudo docker pull olegenov/foodgram:latest
           sudo docker-compose --context remote down
           cd foodgram-project
-          sudo docker-compose up -d --force-recreate
+          sudo docker-compose up -d --build
