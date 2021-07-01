@@ -266,7 +266,8 @@ def purchase_download(request):
 
 @login_required
 def purchase_delete(request, recipe_id):
-    recipe = get_object_or_404(Recipe, pk=recipe_id)
-    get_object_or_404(Purchase, recipe=recipe, user=request.user).delete()
+    if Purchase.objects.filter(user=request.user, recipe__pk=recipe_id).exists():
+        recipe = get_object_or_404(Recipe, pk=recipe_id)
+        get_object_or_404(Purchase, recipe=recipe, user=request.user).delete()
 
     return redirect('purchase')
