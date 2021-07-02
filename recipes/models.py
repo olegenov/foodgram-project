@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.core.validators import MinValueValidator
 
 
 User = get_user_model()
@@ -102,9 +101,6 @@ class Recipe(models.Model):
     time = models.PositiveIntegerField(
         verbose_name='Время приготовления',
         default=0,
-        validators=[
-            MinValueValidator(0)
-        ]
     )
 
     class Meta:

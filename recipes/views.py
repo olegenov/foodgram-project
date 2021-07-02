@@ -5,6 +5,8 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from rest_framework import status
+from rest_framework.response import Response
 
 from .forms import RecipeForm
 from .models import (Favorite, Ingredient, Purchase, Recipe,
@@ -83,8 +85,11 @@ def recipe_new(request):
             }
         )
 
-    recipe = form.save(request, commit=False)
-    recipe.save()
+    try:
+        recipe = form.save(request, commit=False)
+        recipe.save()
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
     return redirect(
         reverse(
@@ -132,8 +137,12 @@ def recipe_edit(request, username, recipe_id):
         files=request.FILES or None,
         instance=recipe
     )
-    recipe = form.save(request)
-    recipe.save()
+
+    try:
+        recipe = form.save(request)
+        recipe.save()
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
     return redirect('recipe_view', username=username, recipe_id=recipe.pk)
 
