@@ -2,7 +2,7 @@
     {% csrf_token %}
     {% load recipe_filters %} 
     {% if request.user|is_following:author.pk %}
-    <button class="button button_style_light-blue button_size_subscribe" name="subscribe">Отписаться от автора</button>
+    <button class="button button_style_light-blue button_size_subscribe" name="subscribe">Отписаться от автора</a>
     {% else %}
     <button class="button button_style_blue button_size_subscribe" name="subscribe" data-out>Подписаться на автора</button>
     {% endif %} 

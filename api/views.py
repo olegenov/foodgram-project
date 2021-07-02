@@ -29,7 +29,7 @@ class FollowViewSet(viewsets.ModelViewSet):
             user=self.request.user
         )
         follow.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(data='deleted', status=status.HTTP_202_ACCEPTED)
 
 
 class FavoriteViewSet(viewsets.ModelViewSet):
@@ -46,7 +46,7 @@ class FavoriteViewSet(viewsets.ModelViewSet):
             user=self.request.user
         )
         favorite.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(data='deleted', status=status.HTTP_202_ACCEPTED)
 
 
 class PurchaseViewSet(viewsets.ModelViewSet):
@@ -63,7 +63,7 @@ class PurchaseViewSet(viewsets.ModelViewSet):
             user=self.request.user
         )
         purchase.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(data='deleted', status=status.HTTP_202_ACCEPTED)
 
 
 class IngredientViewSet(viewsets.ModelViewSet):

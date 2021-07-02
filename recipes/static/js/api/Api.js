@@ -89,7 +89,7 @@ class Api {
       headers: {
         'Content-Type': 'application/json',
         "X-CSRFToken": getCookie("csrftoken")
-      }
+      },
     })
       .then( e => {
           if(e.ok) {
