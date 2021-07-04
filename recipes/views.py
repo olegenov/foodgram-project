@@ -85,11 +85,11 @@ def recipe_new(request):
             }
         )
 
-    try:
-        recipe = form.save(request, commit=False)
-        recipe.save()
-    except:
+    if 'time' in form.errors.items():
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    recipe = form.save(request, commit=False)
+    recipe.save()
 
     return redirect(
         reverse(
