@@ -73,6 +73,9 @@ def recipe_new(request):
     recipe = None
 
     if not form.is_valid():
+        if 'time' in form.errors.items():
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
         return render(
             request,
             'recipes/new_recipe.html',
@@ -84,9 +87,6 @@ def recipe_new(request):
                 'purchase_count': purchase_count,
             }
         )
-
-    if 'time' in form.errors.items():
-        return Response(status=status.HTTP_400_BAD_REQUEST)
 
     recipe = form.save(request, commit=False)
     recipe.save()
