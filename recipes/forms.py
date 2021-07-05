@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.forms import ModelForm, Textarea
 
 from .models import Ingredient, Recipe, RecipeIngredient, Tag
@@ -38,6 +38,10 @@ class RecipeForm(ModelForm):
                 if title[0] == 'nameIngredient':
                     ingredient = Ingredient.objects.get(name=value)
                     amount = request.POST.get(f'valueIngredient_{title[1]}')
+
+                    if int(amount) <= 0:
+                        return 400
+
                     recipe_ingredient = RecipeIngredient.objects.create(
                         ingredient=ingredient,
                         amount=amount

@@ -73,9 +73,6 @@ def recipe_new(request):
     recipe = None
 
     if not form.is_valid():
-        if 'time' in form.errors:
-            return render(request, 'misc/400.html', status=400)
-
         return render(
             request,
             'recipes/new_recipe.html',
@@ -89,6 +86,10 @@ def recipe_new(request):
         )
 
     recipe = form.save(request, commit=False)
+
+    if recipe == 400:
+        return render(request, 'misc/400.html', status=400)
+
     recipe.save()
 
     return redirect(
@@ -120,9 +121,6 @@ def recipe_edit(request, username, recipe_id):
         )
     
     if not form.is_valid():
-        if 'time' in form.errors:
-            return render(request, 'misc/400.html', status=400)
-
         return render(
             request,
             'recipes/new_recipe.html',
