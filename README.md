@@ -21,7 +21,3 @@ foodgram-project
 ``` docker exec -it <web-container-ID> bash ```
 * run
 ``` python manage.py createsuperuser ```
-
-admin user:
-    login: admin
-    password: admin
