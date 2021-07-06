@@ -38,12 +38,6 @@ class RecipeForm(ModelForm):
                 if title[0] == 'nameIngredient':
                     ingredient = Ingredient.objects.get(name=value)
                     amount = request.POST.get(f'valueIngredient_{title[1]}')
-
-                    if int(amount) <= 0:
-                        recipe.delete()
-
-                        return 400
-
                     recipe_ingredient = RecipeIngredient.objects.create(
                         ingredient=ingredient,
                         amount=amount

@@ -86,10 +86,6 @@ def recipe_new(request):
         )
 
     recipe = form.save(request, commit=False)
-
-    if recipe == 400:
-        return render(request, 'misc/400.html', status=400)
-
     recipe.save()
 
     return redirect(
